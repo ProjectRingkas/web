@@ -1,6 +1,5 @@
 <template>
-  
-  <div class="container-invoice">
+  <div class="container-table">
     <!-- content -->
     <b-row>
       <b-col>
@@ -11,7 +10,7 @@
                 <b-card-title>List Invoice</b-card-title>
               </b-col>
               <b-col class="text-right">
-                <router-link to="/invoice/create" class="plus-create bg-success align-middle">
+                <router-link to="/bill/create" class="plus-create bg-success align-middle">
                 <plus-icon class="icon-head"></plus-icon></router-link>
                 <!-- <a href="./create" >
                 </a> -->
@@ -53,7 +52,7 @@
 </template>
 
 <script>
-import ModalPayment from '../ModalPayment.vue'
+import ModalPayment from './ModalPayment.vue'
 import {MoreVerticalIcon, PlusIcon}  from 'vue-feather-icons'
 export default {
   name: "Invoice",

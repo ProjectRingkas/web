@@ -26,8 +26,10 @@
           </b-col>
         </b-row>
       </div>
-      <div class="container">
-        <router-view />
+      <div class="container content-view">
+        <transition name="fade">
+          <router-view />
+        </transition>
       </div>
     </section>
     </template>
@@ -104,6 +106,13 @@ div.home-content {
 
 .sign-out span {
   margin-right: 3px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 </style>

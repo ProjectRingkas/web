@@ -5,13 +5,14 @@ import Invoice from '../views/invoice/Invoice.vue'
 import Customer from '../views/Customer.vue'
 import Category from '../views/Category.vue'
 import Inventory from '../views/Inventory.vue'
-import Bills from '../views/Bills.vue'
+import Bills from '../views/bill/Bills.vue'
+import CreateBill from '../views/bill/Create.vue'
 import Vendors from '../views/Vendors.vue'
 import COA from '../views/COA.vue'
 import ManualTransaction from '../views/ManualTransaction.vue'
 import Neraca from '../views/Neraca.vue'
 import UntungRugi from '../views/UntungRugi.vue'
-import Create from '../views/invoice/Create.vue'
+import CreateInvoice from '../views/invoice/Create.vue'
 import Login from '../components/Login/Login'
 
 Vue.use(VueRouter)
@@ -22,21 +23,31 @@ const routes = [
     name: 'Home',
     component: Home
   },
-   {
-     path: '/login',
-     name: 'Login',
-     component: Login
-   },
-   {
-     path: '/invoice',
-     name: 'Invoice',
-     component: Invoice
-   },
-   {
-     path: '/invoice/create',
-     name: 'CreateInvoice',
-     component: Create
-   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/invoice',
+    name: 'Invoice',
+    component: Invoice
+  },
+  {
+    path: '/invoice/create',
+    name: 'CreateInvoice',
+    component: CreateInvoice
+  },
+  {
+    path: '/bill',
+    name: 'Bills',
+    component: Bills
+  },
+  {
+    path: '/bill/create',
+    name: 'CreateBill',
+    component: CreateBill
+  },
   {
     path: '/customer',
     name: 'Customer',
