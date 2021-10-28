@@ -54,7 +54,7 @@
           </b-row>
           <b-row>
             <b-col>
-                <b-form-select class="form-select" v-model="selected" :options="options"></b-form-select>
+                <b-form-select class="form-select" v-model="customer" :options="opsCustomers"></b-form-select>
               </b-col>
           </b-row>
         </b-col>
@@ -84,6 +84,7 @@
                   style="text-align: left; width: 277px"
                   class="align-right-item mb-2"
                   placeholder="Form"
+                  v-model="date"
                 ></b-form-datepicker
               ></b-col>
             </b-row>
@@ -119,13 +120,13 @@
               </b-col>
           </b-row>
 
-          <b-row  v-for="(item, index) in items" :key="item.id">
+          <b-row  v-for="(item, index) in items" :key="index">
             <b-col cols="4">
-               <b-form-select class="form-select" v-model="item.name" :options="options"></b-form-select>
+               <b-form-select @change="selectChanged(index, item.product_id)" class="form-select" v-model="item.product_id" :options="opsProducts"></b-form-select>
             </b-col>
             <b-col>
               <b-form-input
-                v-model="item.qty"
+                v-model="item.quantity"
                 type="number"
               ></b-form-input>
             </b-col>
@@ -136,7 +137,7 @@
               ></b-form-input>
             </b-col>
             <b-col >
-              <p class="align-right">$ {{ item.price * item.qty }}</p>
+              <p class="align-right">$ {{ item.price * item.quantity }}</p>
             </b-col>
             <b-col cols="1" class="text-center mx-0">
               <a @click="removeitem(index)"><b-icon class="btn" icon="trash" style="color: #7952b3;" ></b-icon></a>
@@ -151,7 +152,7 @@
           </b-row>
           
           <b-row>
-            <p class="align-right">Total: {{ items.reduce((old, obj) =>{ old += (obj.price * obj.qty); return old; },0) }}</p>
+            <p class="align-right">Total: {{ (items.reduce((old, obj) =>{ old += (obj.price * obj.quantity); return old; },0)).toFixed(2) }}</p>
           </b-row>
 
         <h6>Notes / Terms</h6>
@@ -159,38 +160,40 @@
           rows="3"
           no-resize
           placeholder="Enter a note for this invoice"
+          v-model="description"
         ></b-textarea>
         <div style="margin-top: 122px"></div>
       </b-card>
     </div>
 
     <b-row class="align-right">
-      <b-col><b-button variant="outline-dark">Save Invoice</b-button></b-col>
+      <b-col><b-button @click="saveInvoice()" variant="outline-dark">Save Invoice</b-button></b-col>
     </b-row>
 
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: "invoice",
   data() {
     return {
-      selected: null,
-      options: [
-        { value: 1, text: "Please select an option" },
-        { value: 2, text: "This is First option" },
-        { value: 3, text: "Selected Option" },
-      ],
+      date: null,
+      description: null,
+      customer: null,
+      opsCustomers: [],
+      opsProducts: [],
+      products: [],
       price: "",
       quantity: "",
       items:[{
-            name: "",
-            qty: 0,
-            price: 0,
-            totalprice: 0
-        }]
+        product_id: 0,
+        quantity: 0,
+        price: 0,
+        discount: 0,
+      }]
     };
   },
   methods: {
@@ -198,16 +201,86 @@ export default {
       console.log("price");
     },
     additem(){
-          this.items.push({
-            name: "",
-            qty: 0,
-            price: 0,
-            totalprice: 0
-        });
-      },
-      removeitem(index){
-          this.items.splice(index, 1)
-      },
+        this.items.push({
+          product_id: 0,
+          quantity: 0,
+          price: 0,
+          discount: 0,
+      });
+    },
+    removeitem(index){
+      this.items.splice(index, 1)
+    },
+    setProducts(options, data) {
+      this.opsProducts = options;
+      this.products = data;
+    },
+    setCustomers(options) {
+      this.opsCustomers = options;
+    },
+    selectChanged(index, product_id){
+      this.products.forEach(product => {
+        if (product.id == product_id) this.items[index]['price'] = product.price;
+      });
+    },
+    saveInvoice() {
+      console.log(this.customer);
+      console.log(JSON.stringify(this.items));
+      console.log(this.date);
+      console.log(this.description);
+
+      var data = {
+            customer_id : this.customer,
+            date : this.date,
+            items : JSON.stringify(this.items),
+            description : this.description
+      };
+      
+      axios.post('http://localhost:3000/api/invoice/add', data)
+        .then(response => {
+            console.log(response.data);
+            if (response.data.status == 200) this.$router.push('/invoice');
+            else console.log('failed to save invoice');
+        })
+        .catch((err) => {
+            console.log('errrrr',err)
+        })
+    }
+  },
+  mounted() {
+    // Request products list
+    axios
+      .get('http://localhost:3000/api/items/getall')
+      .then(response => {
+        console.log(response.data)
+        var objOptions = response.data.data.map( (row)=> {
+          return {
+            'value': row.id,
+            'text': row.name
+          }
+        })
+        this.setProducts(objOptions, response.data.data)
+      })
+      .catch((err) => {
+        console.log('errrrr',err)
+      })
+    
+    // Request customers list
+    axios
+      .get('http://localhost:3000/api/customers/getall')
+      .then(response => {
+        console.log(response.data)
+        var objOptions = response.data.data.map( (row)=> {
+          return {
+            'value': row.id,
+            'text': row.name
+          }
+        })
+        this.setCustomers(objOptions)
+      })
+      .catch((err) => {
+        console.log('errrrr',err)
+      })
   },
 };
 </script>
