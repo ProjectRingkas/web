@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import ModalPayment from './ModalPayment.vue'
+import ModalPayment from '../ModalPayment.vue'
 import {MoreVerticalIcon, PlusIcon}  from 'vue-feather-icons'
 export default {
   name: "Invoice",
