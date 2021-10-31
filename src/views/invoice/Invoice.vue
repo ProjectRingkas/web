@@ -37,14 +37,15 @@
                   <template #button-content>
                     <more-vertical-icon class="icon-head"></more-vertical-icon>
                   </template>
-                  <b-dropdown-item @click="showAddPayment(data)">Add Payment</b-dropdown-item>
+                  <b-dropdown-item v-b-modal.modal-lg @click="showAddPayment(data)">Add Payment</b-dropdown-item>
                   <b-dropdown-item href="#">Edit</b-dropdown-item>
                   <b-dropdown-item href="#">Delete</b-dropdown-item>
                 </b-dropdown>
+                
               </div>
             </template>
           </b-table>
-          <ModalPayment ref="payment-modal" id="modal-lg" size="lg" title="Large Modal" />
+          <ModalPayment ref="payment" id="modal-lg" size="lg" title="Large Modal" />
         </b-card>
       </b-col>
     </b-row>
@@ -122,8 +123,9 @@ export default {
     setInvoices(data) {
       this.invoices = data;
     },
-    showAddPayment(order) {
-      console.log(order)
+    showAddPayment(data) {
+      console.log(data.item.order);
+      this.$refs.payment.setInvoice(data.item.order);
     }
   },
   mounted() {
@@ -136,15 +138,15 @@ export default {
           if (data.order.status == "Pending") data.order.status = { status: 'Pending', variant: 'warning' };
           else if (data.order.status == "Partially Paid") data.order.status = { status: 'Partially Paid', variant: 'primary' };
           else if (data.order.status == "Fully Paid") data.order.status = { status: 'Fully Paid', variant: 'success' };
-          else data.order.status = { status: 'Unknown', variant: 'danger' };
 
           data.order.date = data.order.date.substring(0, data.order.date.indexOf('T'));
+          data.order.type = 'orders';
         });
         console.log(response.data.data)
         this.setInvoices(response.data.data)
       })
       .catch((err) => {
-        console.log('errrrr',err)
+        console.log(err.response);
         this.setInvoices([
           {
             order: {
