@@ -97,26 +97,7 @@ export default {
           thClass: 'text-center' 
         }
       ],
-      invoices:[
-        {
-          Customer: 'Dodit',
-          Total: '12.000.000,-',
-          status: { status: 'Paid', variant: 'success' },
-          Date: '12 November 2021'
-        },
-        {
-          Customer: 'Dodit M',
-          Total: '12.000.000,-',
-          status: { status: 'Partially Paid', variant: 'warning' },
-          Date: '12 November 2021'
-        },
-        {
-          Customer: 'Dodit',
-          Total: '12.000.000,-',
-          status: { status: 'Paid', variant: 'success' },
-          Date: '12 November 2021'
-        }
-      ]
+      invoices:[]
     }
   },
   methods: {
@@ -124,7 +105,7 @@ export default {
       this.invoices = data;
     },
     showAddPayment(data) {
-      console.log(data.item.order);
+      console.log(data);
       this.$refs.payment.setInvoice(data.item.order);
     }
   },

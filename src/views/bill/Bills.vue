@@ -18,8 +18,8 @@
               </b-col>
             </b-row>
           </div>
-          <b-table responsive="sm" :fields="fields" :items="items" >
-            <template #cell(status)="data">
+          <b-table responsive="sm" :fields="fields" :items="bills" >
+            <template #cell(bill.status)="data">
               <b-badge
                 pill
                 :variant="data.value.variant"
@@ -27,7 +27,7 @@
                 {{ data.value.status }}
               </b-badge>
             </template>
-            <template #cell(action)>
+            <template #cell(action)="data">
               <div class="">
                 <b-dropdown
                 variant="link"
@@ -36,7 +36,7 @@
                   <template #button-content>
                     <more-vertical-icon class="icon-head"></more-vertical-icon>
                   </template>
-                  <b-dropdown-item v-b-modal.modal-lg href="#">Add Payment</b-dropdown-item>
+                  <b-dropdown-item v-b-modal.modal-lg @click="showAddPayment(data)" href="#">Add Payment</b-dropdown-item>
                   <b-dropdown-item href="#">Edit</b-dropdown-item>
                   <b-dropdown-item href="#">Delete</b-dropdown-item>
                 </b-dropdown>
@@ -44,7 +44,7 @@
               </div>
             </template>
           </b-table>
-          <ModalPayment id="modal-lg" size="lg" title="Large Modal" />
+          <ModalPayment ref="payment" id="modal-lg" size="lg" title="Large Modal" />
         </b-card>
       </b-col>
     </b-row>
@@ -54,6 +54,8 @@
 <script>
 import ModalPayment from '../ModalPayment.vue'
 import {MoreVerticalIcon, PlusIcon}  from 'vue-feather-icons'
+import axios from 'axios';
+
 export default {
   name: "Invoice",
   components:{
@@ -64,20 +66,30 @@ export default {
   data(){
     return {
       fields:[
-        'Customer',
         {
-          key:'Total',
+          key:'bill.vendor[0].name',
+          label: 'Vendor',
+        },
+        {
+          key:'bill.bill_item[0].name',
+          label: 'Item',
+          tdClass: 'text-center',
+          thClass: 'text-center'
+        },
+        {
+          key:'bill.bill_item[0].transaction_price',
+          label: 'Total',
           tdClass: 'text-center',
           thClass: 'text-center'
         },
         { 
-          key: 'status', 
+          key: 'bill.status', 
           label: 'Status',
           tdClass: 'text-center',
           thClass: 'text-center' 
         },
         { 
-          key: 'Date', 
+          key: 'bill.date', 
           label: 'Date',
           tdClass: 'text-center',
           thClass: 'text-center' 
@@ -89,28 +101,48 @@ export default {
           thClass: 'text-center' 
         }
       ],
-      items:[
-        {
-          Customer: 'Dodit',
-          Total: '12.000.000,-',
-          status: { status: 'Paid', variant: 'success' },
-          Date: '12 November 2021'
-        },
-        {
-          Customer: 'Dodit M',
-          Total: '12.000.000,-',
-          status: { status: 'Partially Paid', variant: 'warning' },
-          Date: '12 November 2021'
-        },
-        {
-          Customer: 'Dodit',
-          Total: '12.000.000,-',
-          status: { status: 'Paid', variant: 'success' },
-          Date: '12 November 2021'
-        }
-      ]
+      bills:[]
     }
-  }
+  },
+  methods: {
+    setBill(data) {
+      this.bills = data;
+    },
+    showAddPayment(data) {
+      console.log(data);
+      this.$refs.payment.setInvoice(data.item.bill);
+    }
+  },
+  mounted() {
+    // Request get all bill
+    axios
+      .get('http://localhost:3000/api/bill/getall')
+      .then(response => {
+        console.log(response.data)
+        response.data.data.forEach(data => {
+          if (data.bill.status == "Pending") data.bill.status = { status: 'Pending', variant: 'warning' };
+          else if (data.bill.status == "Partially Paid") data.bill.status = { status: 'Partially Paid', variant: 'primary' };
+          else if (data.bill.status == "Fully Paid") data.bill.status = { status: 'Fully Paid', variant: 'success' };
+
+          data.bill.date = data.bill.date.substring(0, data.bill.date.indexOf('T'));
+          data.bill.type = 'bills';
+        });
+        console.log(response.data.data);
+        this.setBill(response.data.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        this.setBill([
+          {
+            bill: {
+              vendor:[ {
+                'name': 'Test'
+              } ]
+            }
+          }
+        ])
+      })
+  },
 }
 </script>
 
