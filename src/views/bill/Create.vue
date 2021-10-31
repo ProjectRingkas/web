@@ -12,7 +12,34 @@
             </b-row>
           </div>
         
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-form @submit.prevent="onSubmit" @reset="onReset" v-if="show">
+                <b-row class="py-2">
+                    <b-col sm="3">
+                        <label for="date">Date:</label>
+                    </b-col>
+                    <b-col sm="3">
+                        <b-form-input
+                            id="date"
+                            type="date"
+                            placeholder=""
+                            v-model="data.date"
+                            required
+                        ></b-form-input>
+                    </b-col>
+                    <b-col sm="3">
+                        <label for="periodic">Periodic:</label>
+                    </b-col>
+                    <b-col sm="3">
+                        <b-form-select 
+                            id="periodic" 
+                            v-model="data.periodic" 
+                            required>
+                            <option value="month">Month</option>
+                            <option value="year">Year</option>
+                        </b-form-select>
+                    </b-col>
+                </b-row>
+
                 <b-row class="py-2">
                     <b-col sm="3">
                         <label for="vendor">Select Vendor:</label>
@@ -20,9 +47,10 @@
                     <b-col sm="9">
                         <b-form-select 
                             id="vendor" 
-                            v-model="vendors" 
-                            :options="vendorFields">
-                        </b-form-select>
+                            v-model="data.vendor_id" 
+                            :options="opsVendors"
+                            required
+                        ></b-form-select>
                     </b-col>
                 </b-row>
 
@@ -32,8 +60,10 @@
                     </b-col>
                     <b-col sm="9">
                         <b-form-select 
+                            @change="selectChanged"
                             id="item" 
-                            v-model="items" 
+                            v-model="data.product_id"
+                            :options="opsItems"
                             required>
                         </b-form-select>
                     </b-col>
@@ -44,10 +74,7 @@
                         <label for="amount">Transaction Amount:</label>
                     </b-col>
                     <b-col sm="9">
-                        <b-form-input
-                            id="amount"
-                            required
-                        ></b-form-input>
+                        <p class="align-right">$ {{ data.transaction_price * data.quantity }}</p>
                     </b-col>
                 </b-row>
 
@@ -83,23 +110,95 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
             show: true,
-            vendors: [],
-            vendorFields: [],
-            items: []
+            opsVendors: [],
+            opsItems: [],
+            items: [],
+            data: {
+                vendor_id: '',
+                date: null,
+                type: '',
+                periodic: '',
+                description: '',
+                product_id: '',
+                transaction_price: 0,
+                quantity: 1,
+                discount: "0",
+            }
         }
     },
     methods: {
-        onSubmit: () => {
-
+        onSubmit() {
+            console.log(this.data);
+      
+            axios.post('http://localhost:3000/api/bill/add', this.data)
+                .then(response => {
+                    console.log(response);
+                    if (response.data.status == 200) {
+                        alert(response.data.message);
+                        this.$router.push('/bill');
+                    }
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                    alert(err.response.data.message);
+                })
         },
         onReset: () => {
 
+        },
+        setItems(options, data) {
+            this.opsItems = options;
+            this.items = data;
+        },
+        setVendor(options) {
+            this.opsVendors = options;
+        },
+        selectChanged(item_id){
+            console.log(item_id)
+            this.items.forEach(item => {
+                if (item.id == item_id) this.data.transaction_price = item.price;
+            });
         }
-    }
+    },
+    mounted() {
+        // Request vendor list
+        axios.get('http://localhost:3000/api/vendors/getall')
+            .then(response => {
+                console.log(response.data)
+                var objOptions = response.data.data.map( (row)=> {
+                    return {
+                        'value': row.id,
+                        'text': row.name
+                    }
+                })
+                this.setVendor(objOptions);
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+
+        // Request bill items list
+        axios.get('http://localhost:3000/api/items/type', { params: { type: 'bill' } })
+            .then(response => {
+                console.log(response.data)
+                var objOptions = response.data.data.map( (row)=> {
+                    return {
+                        'value': row.id,
+                        'text': row.name
+                    }
+                })
+                this.setItems(objOptions, response.data.data);
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+    },
 }
 </script>
 
