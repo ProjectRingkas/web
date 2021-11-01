@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar h-100">
     <div class="logo-head">
       <img alt="Ringkas" src="../../assets/logo.png" />
       <p>RINGKAS</p>
@@ -90,48 +90,26 @@ export default {
 
 .sidebar{
   position: fixed;
-  top: 0;
+  /* top: 0;
   left: 0;
-  height: 100%;
+  height: 100%; */
   width: 260px;
   z-index: 100;
-  transition: all 0.5s ease;
+  /* transition: all 0.5s ease; */
   background: white;
 }
 .sidebar.close{
   width: 78px;
 }
-/* .sidebar .logo-details{
-  height: 60px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-.sidebar .logo-details i{
-  font-size: 30px;
-  color: #fff;
-  height: 50px;
-  min-width: 78px;
-  text-align: center;
-  line-height: 50px;
-}
-.sidebar .logo-details .logo_name{
-  font-size: 22px;
-  color: #fff;
-  font-weight: 600;
-  transition: 0.3s ease;
-  transition-delay: 0.1s;
-}
-.sidebar.close .logo-details .logo_name{
-  transition-delay: 0s;
-  opacity: 0;
-  pointer-events: none;
-} */
 
 .sidebar .nav-links{
   height: 100%;
   padding: 0px;
   overflow: auto;
+}
+
+.sidebar.close .logo-head p{
+  display: none;
 }
 
 .sidebar.close .nav-links{
@@ -154,7 +132,7 @@ export default {
   background: var(--sidebar-item-active);
   box-shadow: -1px 1px 8px rgba(126, 114, 242, 0.578726);
 }
-.sidebar .nav-links li div.iocn-link:hover{
+.sidebar .nav-links li .iocn-link:hover{
   background: var(--sidebar-item-active);
   box-shadow: -1px 1px 8px rgba(126, 114, 242, 0.578726);
 }
@@ -176,9 +154,9 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.sidebar .nav-links li.showMenu i.arrow{
+/* .sidebar .nav-links li.showMenu i.arrow{
   transform: rotate(-180deg);
-}
+} */
 .sidebar.close .nav-links .icon-code.arrow{
   display: none;
 }
@@ -187,12 +165,7 @@ export default {
   align-items: center;
   text-decoration: none;
 }
-/* .sidebar .nav-links li a .link_name{
-  font-size: 18px;
-  font-weight: 400;
-  color: #fff;
-  transition: all 0.4s ease;
-} */
+
 .sidebar.close .nav-links li a .link_name{
   opacity: 0;
   pointer-events: none;
@@ -209,12 +182,12 @@ export default {
   font-size: 14px;
   padding: 5px 0;
   white-space: nowrap;
-  opacity: 0.6;
+  opacity: 1;
   transition: all 0.3s ease;
 }
-.sidebar .nav-links li .sub-menu a:hover{
+/* .sidebar .nav-links li .sub-menu a:hover{
   opacity: 1;
-}
+} */
 .sidebar.close .nav-links li .sub-menu{
   position: absolute;
   left: 100%;
@@ -302,14 +275,14 @@ export default {
 }
 .home-section{
   position: relative;
-  height: 100vh;
-  left: 260px;
-  width: calc(100% - 260px);
+  /* height: 100vh; */
+  margin-left: 260px;
+  padding: 0rem 1rem 0;
   transition: all 0.5s ease;
 }
 .sidebar.close ~ .home-section{
-  left: 78px;
-  width: calc(100% - 78px);
+  margin-left: 78px;
+  /* width: calc(100% - 78px); */
 }
 .home-section .home-content{
   /* height: 60px; */

@@ -1,11 +1,11 @@
 <template>
-  <div id="app" >
+  <div id="app" class="h-100 d-block" >
     <template v-if="this.$route.name == 'Login'">
       <router-view />
     </template>
     <template v-else>
       <Sidebar />
-    <section class="home-section">
+    <section class="home-section h-100">
       <div class="home-content">
         <b-row class="w-100">
           <b-col>
@@ -26,8 +26,8 @@
           </b-col>
         </b-row>
       </div>
-      <div class="container content-view">
-        <transition name="fade">
+      <div class="container content-view h-100">
+        <transition name="zoom-fade" mode="out-in">
           <router-view />
         </transition>
       </div>
@@ -56,13 +56,13 @@ export default {
     }
   },
   created: function () {
-    let arrow = document.querySelectorAll(".arrow");
+    /* let arrow = document.querySelectorAll(".arrow");
     for (var i = 0; i < arrow.length; i++) {
       arrow[i].addEventListener("click", (e)=>{
     let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
     arrowParent.classList.toggle("showMenu");
       });
-    }
+    } */
   },
 };
 </script>
@@ -83,12 +83,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
   height: 100%;
-  display: flex;
-  background-color: #E4E9F7;
+  display: block;
 }
 
 div.home-content {
   height: 96px;
+}
+
+section.home-section {
+  background-color: #E4E9F7;
+  overflow-y: scroll;
 }
 
 .icon-head {
@@ -108,11 +112,23 @@ div.home-content {
   margin-right: 3px;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .3s;
+.zoom-fade-enter-active,
+.zoom-fade-leave-active {
+  transition: transform 0.35s, opacity 0.28s ease-in-out;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.zoom-fade-enter {
+  transform: scale(0.97);
   opacity: 0;
 }
 
+.zoom-fade-leave-to {
+  transform: scale(1.03);
+  opacity: 0;
+}
+
+div.content-view {
+  font-family: Montserrat,Helvetica,Arial,serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+}
 </style>

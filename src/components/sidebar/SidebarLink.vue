@@ -46,7 +46,7 @@ li .icon-code {
     min-width: 48px;
     text-align: center;
     line-height: 42px;
-    color:black;
+    color:#2C2C2C;
 }
 
 .sidebar .nav-links li.first-link:hover .icon-code,
@@ -73,9 +73,9 @@ li a .link_name {
     height: 42px;
     font-size: 16px;
     font-weight: 400;
-    color: black;
+    color: #2C2C2C;
     cursor: pointer;
-    transition: all 0.3s ease;
+    /* transition: all 0.3s ease; */
 }
 
 </style>

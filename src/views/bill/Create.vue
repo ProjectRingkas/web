@@ -1,84 +1,90 @@
 <template>
-<div class="container-invoice">
-    <!-- content -->
-    <b-row>
-      <b-col>
-        <b-card class="container">
-          <div class="card-header">
+    <div class="container-invoice">
+        <b-card
+        header="Bussiness address and contact details"
+        header-tag="header"
+        tag="article"
+        style="max-width: 100%"
+        class="shadow-sm mb-2"
+        id="test"
+        >
+        <b-form @submit.prevent>
             <b-row>
-              <b-col>
-                <b-card-title>List Invoice</b-card-title>
-              </b-col>
-            </b-row>
-          </div>
-        
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="vendor">Select Vendor:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <b-form-select 
+            <b-col cols="12">
+                <b-form-group
+                label="First Name"
+                label-for="h-first-name"
+                label-cols-md="4"
+                >
+                <b-form-select 
                             id="vendor" 
                             v-model="vendors" 
                             :options="vendorFields">
                         </b-form-select>
-                    </b-col>
-                </b-row>
-
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="item">Select Item:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <b-form-select 
+                </b-form-group>
+            </b-col>
+            <b-col cols="12">
+                <b-form-group
+                label="Email"
+                label-for="h-email"
+                label-cols-md="4"
+                >
+                <b-form-select 
                             id="item" 
                             v-model="items" 
                             required>
                         </b-form-select>
-                    </b-col>
-                </b-row>
-
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="amount">Transaction Amount:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <b-form-input
+                </b-form-group>
+            </b-col>
+            <b-col cols="12">
+                <b-form-group
+                label="Mobile"
+                label-for="h-number"
+                label-cols-md="4"
+                >
+                <b-form-input
                             id="amount"
                             required
                         ></b-form-input>
-                    </b-col>
-                </b-row>
-
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="description">Description:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <b-form-textarea
+                </b-form-group>
+            </b-col>
+            <b-col cols="12">
+                <b-form-group
+                label="Password"
+                label-for="h-password"
+                label-cols-md="4"
+                >
+                <b-form-textarea
                             id="description"
                             placeholder="Enter something..."
                             rows="3"
                             max-rows="6"
                         ></b-form-textarea>
-                    </b-col>
-                </b-row>
-
-                <b-row class="py-2">
-                    <b-col class="px-1 text-right">
-                        <b-button type="submit" variant="primary">Submit</b-button>
-                    </b-col>
-                    <b-col class="px-1 text-left">
-                        <b-button type="reset" variant="danger">Reset</b-button>
-                    </b-col>
-                </b-row>
-
-                
-                </b-form>
-                </b-card>
+                </b-form-group>
             </b-col>
-        </b-row>
+
+            <!-- submit and reset -->
+            <b-col offset-md="4">
+                <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                type="submit"
+                variant="primary"
+                class="mr-1"
+                >
+                Submit
+                </b-button>
+                <b-button
+                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                type="reset"
+                variant="outline-secondary"
+                >
+                Reset
+                </b-button>
+            </b-col>
+            </b-row>
+
+        </b-form>
+        </b-card>
     </div>
 </template>
 

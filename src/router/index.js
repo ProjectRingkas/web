@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Customer from '../views/Customer.vue'
 import Category from '../views/Category.vue'
 import Inventory from '../views/Inventory.vue'
 import Bills from '../views/bill/Bills.vue'
@@ -11,10 +10,14 @@ import Neraca from '../views/Neraca.vue'
 import UntungRugi from '../views/UntungRugi.vue'
 
 import Home from '../views/Home.vue'
+
 import Invoice from '../views/invoice/Invoice.vue'
 import CreateInvoice from '../views/invoice/Create.vue'
+
 import Login from '../components/Login/Login'
 import CreateBill from '../views/bill/Create.vue'
+
+import Customer from '../views/customer/Customer.vue'
 
 Vue.use(VueRouter)
 

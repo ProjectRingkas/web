@@ -1,5 +1,4 @@
 <template>
-  
   <div class="container-invoice">
     <!-- content -->
     <b-row>
@@ -13,9 +12,6 @@
               <b-col class="text-right">
                 <router-link to="/invoice/create" class="plus-create bg-success align-middle">
                 <plus-icon class="icon-head"></plus-icon></router-link>
-                <!-- <a href="./create" >
-                </a> -->
-                
               </b-col>
             </b-row>
           </div>
