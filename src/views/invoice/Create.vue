@@ -13,45 +13,44 @@
               />
             </b-col>
             <b-col>
-              <b-form-group>
-                <b-form-input
-                  style="text-align: right; width: 377px"
-                  class="align-right-item mb-2"
-                  placeholder="Invoice"
-                ></b-form-input>
-                <b-form-input
-                  style="text-align: right; width: 377px"
-                  class="align-right-item mb-2"
-                  placeholder="Summary (e.g. project name, description invoice)t"
-                ></b-form-input>
-                <b-form-textarea
-                  rows="3"
-                  style="text-align: right; width: 377px"
-                  class="align-right-item mb-2"
-                  no-resize
-                  :placeholder="'Address, Line 1 Factory. \n United States'"
-                >
-                </b-form-textarea>
-              </b-form-group>
-            </b-col>
+                <b-form-select class="form-select" v-model="data.customer_id" :options="opsCustomers"></b-form-select>
+              </b-col>
           </b-row>
-        </b-card>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <b-card tag="article" class="p-4">
-          <b-row class="py-2">
-          <b-col cols="2">
+        
+          <b-col offset-md="3" cols="7">
             <b-row>
-                <b-col align-self="start">Select Customer</b-col>
+              <b-col align-self="start">Invoice Number</b-col>
+              <b-col>
+                <b-form-input
+                  style="text-align: right; width: 377px"
+                  class="align-right-item mb-2"
+                  v-model="data.invoice_number"
+                ></b-form-input>
+                <b-form-input
+                  style="text-align: right; width: 377px"
+                  class="align-right-item mb-2"
+                  v-model="data.order_number"
+                ></b-form-input>
+                <b-form-datepicker 
+                  style="text-align: right; width: 377px"
+                  class="align-right-item mb-2"
+                  placeholder="Form"
+                  v-model="data.date"
+                ></b-form-datepicker ></b-col>
             </b-row>
             <b-row>
-              <b-col>
-                  <b-form-select class="form-select" v-model="customer" :options="opsCustomers"></b-form-select>
-                </b-col>
+              <b-col align-self="start">Payment Due</b-col>
+              <b-col
+                ><b-form-datepicker
+                  style="text-align: left; width: 277px"
+                  class="align-right-item mb-2"
+                  placeholder="Form"
+                  v-model="data.due"
+                ></b-form-datepicker
+              ></b-col>
             </b-row>
           </b-col>
+          <b-row>
             <b-col offset-md="3" cols="7">
               <b-row>
                 <b-col align-self="start">Invoice Number</b-col>
@@ -142,43 +141,24 @@
               <b-col cols="12">
                 <div @click="additem()" class="btn btn-sm btn-outline-secondary" style="width:100%;">Add Item</div>
               </b-col>
-              
             </b-row>
             
-            <b-row class="pt-2">
-              <b-col cols="2" offset="6">
-                <p class="align-right">Total:</p>
-              </b-col>
-              <b-col cols="2">
-                <p class="align-right">$ {{(items.reduce((old, obj) =>{ old += (obj.price * obj.quantity); return old; },0)).toFixed(2) }}</p>
-              </b-col>
-            </b-row>
-            <b-row class="py-2">
-              <b-col>
-                <h6>Notes / Terms</h6>
-                <b-textarea
-                  rows="3"
-                  no-resize
-                  placeholder="Enter a note for this invoice"
-                  v-model="description"
-                ></b-textarea>
-              </b-col>
-            </b-row>
-            <b-row class="align-right">
-              <b-col><b-button @click="saveInvoice()" variant="outline-dark">Save Invoice</b-button></b-col>
-            </b-row>
+          
+          <b-row>
+            <p class="align-right">Total: {{ (items.reduce((old, obj) =>{ old += (obj.price * obj.quantity); return old; },0)).toFixed(2) }}</p>
+          </b-row>
+
+        <h6>Notes / Terms</h6>
+        <b-textarea
+          rows="3"
+          no-resize
+          placeholder="Enter a note for this invoice"
+          v-model="data.description"
+        ></b-textarea>
+        <div style="margin-top: 122px"></div>
         </b-card>
       </b-col>
     </b-row>
-    
-    <!-- <div>
-      
-    </div> -->
-
-    <!-- <b-row class="align-right">
-      <b-col><b-button @click="saveInvoice()" variant="outline-dark">Save Invoice</b-button></b-col>
-    </b-row> -->
-
   </div>
 </template>
 
@@ -189,9 +169,15 @@ export default {
   name: "invoice",
   data() {
     return {
-      date: null,
-      description: null,
-      customer: null,
+      data: {
+        invoice_number : '',
+        order_number : '',
+        customer_id: '',
+        date: null,
+        due: null,
+        items: [],
+        description: '',
+      },
       opsCustomers: [],
       opsProducts: [],
       products: [],
@@ -233,33 +219,25 @@ export default {
       });
     },
     saveInvoice() {
-      console.log(this.customer);
-      console.log(JSON.stringify(this.items));
-      console.log(this.date);
-      console.log(this.description);
-
-      var data = {
-            customer_id : this.customer,
-            date : this.date,
-            items : JSON.stringify(this.items),
-            description : this.description
-      };
+      this.data.items = JSON.stringify(this.items);
       
-      axios.post('http://localhost:3000/api/invoice/add', data)
+      axios.post('http://localhost:3000/api/invoice/add', this.data)
         .then(response => {
-            console.log(response.data);
-            if (response.data.status == 200) this.$router.push('/invoice');
-            else console.log('failed to save invoice');
+            console.log(response);
+            if (response.data.status == 200) {
+              alert(response.data.message);
+              this.$router.push('/invoice');
+            }
         })
         .catch((err) => {
-            console.log('errrrr',err)
+            console.log(err.response);
+            alert(err.response.data.message);
         })
     }
   },
   mounted() {
     // Request products list
-    axios
-      .get('http://localhost:3000/api/items/getall')
+    axios.get('http://localhost:3000/api/items/getall')
       .then(response => {
         console.log(response.data)
         var objOptions = response.data.data.map( (row)=> {
@@ -271,12 +249,11 @@ export default {
         this.setProducts(objOptions, response.data.data)
       })
       .catch((err) => {
-        console.log('errrrr',err)
+        console.log(err.response);
       })
     
     // Request customers list
-    axios
-      .get('http://localhost:3000/api/customers/getall')
+    axios.get('http://localhost:3000/api/customers/getall')
       .then(response => {
         console.log(response.data)
         var objOptions = response.data.data.map( (row)=> {
@@ -288,7 +265,7 @@ export default {
         this.setCustomers(objOptions)
       })
       .catch((err) => {
-        console.log('errrrr',err)
+        console.log(err.response);
       })
   },
 };
