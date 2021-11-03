@@ -13,46 +13,45 @@
               />
             </b-col>
             <b-col>
-                <b-form-select class="form-select" v-model="data.customer_id" :options="opsCustomers"></b-form-select>
-              </b-col>
+              <b-form-group>
+                <b-form-input
+                  style="text-align: right; width: 377px"
+                  class="align-right-item mb-2"
+                  placeholder="Invoice"
+                ></b-form-input>
+                <b-form-input
+                  style="text-align: right; width: 377px"
+                  class="align-right-item mb-2"
+                  placeholder="Summary (e.g. project name, description invoice)t"
+                ></b-form-input>
+                <b-form-textarea
+                  rows="3"
+                  style="text-align: right; width: 377px"
+                  class="align-right-item mb-2"
+                  no-resize
+                  :placeholder="'Address, Line 1 Factory. \n United States'"
+                >
+                </b-form-textarea>
+              </b-form-group>
+            </b-col>
           </b-row>
-        
-          <b-col offset-md="3" cols="7">
+        </b-card>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-card tag="article" class="p-4">
+          <b-row class="py-2">
+          <b-col cols="2">
             <b-row>
-              <b-col align-self="start">Invoice Number</b-col>
-              <b-col>
-                <b-form-input
-                  style="text-align: right; width: 377px"
-                  class="align-right-item mb-2"
-                  v-model="data.invoice_number"
-                ></b-form-input>
-                <b-form-input
-                  style="text-align: right; width: 377px"
-                  class="align-right-item mb-2"
-                  v-model="data.order_number"
-                ></b-form-input>
-                <b-form-datepicker 
-                  style="text-align: right; width: 377px"
-                  class="align-right-item mb-2"
-                  placeholder="Form"
-                  v-model="data.date"
-                ></b-form-datepicker ></b-col>
+                <b-col align-self="start">Select Customer</b-col>
             </b-row>
             <b-row>
-              <b-col align-self="start">Payment Due</b-col>
-              <b-col
-                ><b-form-datepicker
-                  style="text-align: left; width: 277px"
-                  class="align-right-item mb-2"
-                  placeholder="Form"
-                  v-model="data.due"
-                ></b-form-datepicker
-              ></b-col>
+              <b-col>
+                <b-form-select class="form-select" v-model="customer" :options="opsCustomers"></b-form-select>
+              </b-col>
             </b-row>
           </b-col>
-        </b-card>
-        <b-card>
-          <b-row>
             <b-col offset-md="3" cols="7">
               <b-row>
                 <b-col align-self="start">Invoice Number</b-col>
@@ -60,6 +59,7 @@
                   <b-form-input
                     style="text-align: right; width: 277px"
                     class="align-right-item mb-2"
+                    v-model="data.invoice_number"
                   ></b-form-input>
                 </b-col>
               </b-row>
@@ -69,6 +69,7 @@
                   <b-form-input
                     style="text-align: right; width: 277px"
                     class="align-right-item mb-2"
+                  v-model="data.order_number"
                   ></b-form-input>
                 </b-col>
               </b-row>
@@ -80,7 +81,7 @@
                     class="align-right-item mb-2"
                     :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
                     placeholder="Form"
-                    v-model="date"
+                  v-model="data.date"
                   ></b-form-datepicker
                 ></b-col>
               </b-row>
@@ -92,6 +93,7 @@
                     class="align-right-item mb-2"
                     :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
                     placeholder="Form"
+                  v-model="data.due"
                   ></b-form-datepicker
                 ></b-col>
               </b-row>
