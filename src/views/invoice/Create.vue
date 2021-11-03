@@ -50,6 +50,8 @@
               ></b-col>
             </b-row>
           </b-col>
+        </b-card>
+        <b-card>
           <b-row>
             <b-col offset-md="3" cols="7">
               <b-row>

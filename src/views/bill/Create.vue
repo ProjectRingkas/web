@@ -59,7 +59,7 @@
                             <b-form-input
                             id="amount"
                             class="align-left-item mb-2"
-                            :model="{{ data.transaction_price * data.quantity }}"
+                            :model="data.transaction_price * data.quantity "
                             />
                         </b-form-group>
                     </b-col>
