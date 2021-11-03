@@ -3,7 +3,7 @@
     <!-- content -->
     <b-row>
       <b-col>
-        <b-card class="container">
+        <b-card class="">
           <b-card-title>
             <b-row>
               <b-col>

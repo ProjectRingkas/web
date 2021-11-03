@@ -3,18 +3,26 @@
     <!-- content -->
     <b-row>
       <b-col>
-        <b-card class="container">
-          <div class="card-header">
+        <b-card class="">
+          <b-card-title>
             <b-row>
               <b-col>
-                <b-card-title>List Invoice</b-card-title>
+                <h5 class="card-title">List Invoice</h5>
               </b-col>
-              <b-col class="text-right">
-                <router-link to="/invoice/create" class="plus-create bg-success align-middle">
-                <plus-icon class="icon-head"></plus-icon></router-link>
+              <b-col cols="6" md="4" offset="2" >
+                <div class="d-flex align-items-center justify-content-end">
+                  <b-form-input
+                    class="d-inline-block mr-1"
+                    placeholder="Search..."
+                  />
+                  <b-button variant="outline-info" to="/invoice/create" class="d-flex justify-content-center align-items-center textd-none" >
+                    <plus-icon class="icon-head "></plus-icon>
+                    <span class="textd-none">Add</span>
+                </b-button>
+                </div>
               </b-col>
             </b-row>
-          </div>
+          </b-card-title>
           <b-table responsive="sm" :fields="fields" :items="invoices" class="no-top-line">
             <template #cell(order.status)="data">
               <b-badge
