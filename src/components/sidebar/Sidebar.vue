@@ -173,10 +173,14 @@ export default {
 .sidebar .nav-links li .sub-menu{
   /* padding: 2px 2px 2px 43px; */
   margin-top: -5px;
-  display: none;
+  /* display: none; */
+  height: 0px;
+  overflow: hidden;
+  transition: ease-in-out 0.2s;
 }
 .sidebar .nav-links li.showMenu .sub-menu{
   display: block;
+  height: 100px;
 }
 .sidebar .nav-links li .sub-menu a{
   font-size: 14px;

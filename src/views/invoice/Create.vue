@@ -96,19 +96,19 @@
             </b-col>
           </b-row>
             <b-row class="pt-5 pb-2">
-                <b-col cols="4" class="text-center">
+                <b-col cols="4" class="text-center fw-800">
                   Item name
                 </b-col>
-                <b-col class="text-center">
+                <b-col class="text-center fw-800">
                   Quantity
                 </b-col>
-                <b-col class="text-center">
+                <b-col class="text-center fw-800">
                   Price
                 </b-col>
-                <b-col class="text-center">
+                <b-col class="text-center fw-800">
                   Amount
                 </b-col>
-                <b-col class="text-center" cols="2">
+                <b-col class="text-center fw-800" cols="2">
                   Action
                 </b-col>
             </b-row>
@@ -143,19 +143,29 @@
               </b-col>
             </b-row>
             
-          
-          <b-row>
-            <p class="align-right">Total: {{ (items.reduce((old, obj) =>{ old += (obj.price * obj.quantity); return old; },0)).toFixed(2) }}</p>
-          </b-row>
 
-        <h6>Notes / Terms</h6>
-        <b-textarea
-          rows="3"
-          no-resize
-          placeholder="Enter a note for this invoice"
-          v-model="data.description"
-        ></b-textarea>
-        <div style="margin-top: 122px"></div>
+            <b-row class="pt-2">
+              <b-col cols="2" offset="6">
+                <p class="align-right">Total:</p>
+              </b-col>
+              <b-col cols="2">
+                <p class="align-right">$ {{(items.reduce((old, obj) =>{ old += (obj.price * obj.quantity); return old; },0)).toFixed(2) }}</p>
+              </b-col>
+            </b-row>
+            <b-row class="py-2">
+              <b-col>
+                <h6>Notes / Terms</h6>
+                <b-textarea
+                  rows="3"
+                  no-resize
+                  placeholder="Enter a note for this invoice"
+                  v-model="data.description"
+                ></b-textarea>
+              </b-col>
+            </b-row>
+            <b-row class="align-right">
+              <b-col><b-button @click="saveInvoice()" variant="primary-local">Save Invoice</b-button></b-col>
+            </b-row>
         </b-card>
       </b-col>
     </b-row>
@@ -294,4 +304,8 @@ export default {
 input.form-control  {
   font-size: 0.9rem;
 } 
+
+.fw-800 {
+  font-weight: 800;
+}
 </style>

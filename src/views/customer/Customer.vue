@@ -6,17 +6,15 @@
           <b-card-title>
             <b-row>
               <b-col>
-                <h4>List Invoice</h4>
+                <h5 class="card-title">List Customer</h5>
               </b-col>
               <b-col cols="6" md="4" offset="2" >
                 <div class="d-flex align-items-center justify-content-end">
                   <b-form-input
-                    v-model="searchQuery"
                     class="d-inline-block mr-1"
                     placeholder="Search..."
                   />
-                  <b-button variant="light" to="/invoice/create" class="d-flex justify-content-center align-items-center textd-none" >
-                  
+                  <b-button variant="outline-info" to="/customer/create" class="d-flex justify-content-center align-items-center textd-none" >
                     <plus-icon class="icon-head "></plus-icon>
                     <span class="textd-none">Add</span>
                   
@@ -28,25 +26,25 @@
           <div>
             <b-table :items="customers" :fields="field" class="list">
               <template #cell(action)="data">
-              <div class="">
-                <div class="btn btn-link px-1 py-0"> 
-                  <eye-icon class="icon-head"/>
+                <div class="">
+                  <div class="btn btn-link px-1 py-0"> 
+                    <eye-icon class="icon-head"/>
+                  </div>
+                  <b-dropdown
+                  right 
+                  variant="link"
+                  no-caret 
+                  toggle-class="px-1 py-0"
+                  >
+                    <template #button-content >
+                      <more-vertical-icon class="icon-head"></more-vertical-icon>
+                    </template>
+                    <b-dropdown-item @click="showAddPayment(data)">Add Payment</b-dropdown-item>
+                    <b-dropdown-item href="#">Edit</b-dropdown-item>
+                    <b-dropdown-item href="#">Delete</b-dropdown-item>
+                  </b-dropdown>
                 </div>
-                <b-dropdown
-                right 
-                variant="link"
-                no-caret 
-                toggle-class="px-1 py-0"
-                >
-                  <template #button-content >
-                    <more-vertical-icon class="icon-head"></more-vertical-icon>
-                  </template>
-                  <b-dropdown-item @click="showAddPayment(data)">Add Payment</b-dropdown-item>
-                  <b-dropdown-item href="#">Edit</b-dropdown-item>
-                  <b-dropdown-item href="#">Delete</b-dropdown-item>
-                </b-dropdown>
-              </div>
-            </template>
+              </template>
             </b-table>
           </div>
         </b-card>
@@ -63,6 +61,11 @@ export default {
     MoreVerticalIcon,
     EyeIcon,
     PlusIcon
+  },
+  methods:{
+    showAddPayment(order) {
+      console.log(order)
+    }
   },
   data() {
     return {

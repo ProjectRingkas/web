@@ -27,8 +27,8 @@ export default [
             route: '/inventory'
         },
         {
-            title: 'Customer',
-            route: '/customer'
+            title: 'Product',
+            route: '/product'
         }
       ]
     },
@@ -69,14 +69,14 @@ export default [
       icon: 'FileText',
       children: [
         {
-            title: 'Laba Rugi',
-            route: '/labarugi',
+            title: 'Profit & Loss',
+            route: '/profitloss',
             icon: 'HomeIcon',
             iconSrc: '../assets/img/icons/icon3.svg'
         },
         {
-            title: 'Neraca',
-            route: '/neraca',
+            title: 'Balance Sheet',
+            route: '/balancesheet',
             icon: 'HomeIcon',
             iconSrc: '../../assets/img/icons/icon3.svg'
         }

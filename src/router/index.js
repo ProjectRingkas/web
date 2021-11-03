@@ -6,8 +6,6 @@ import Bills from '../views/bill/Bills.vue'
 import Vendors from '../views/Vendors.vue'
 import COA from '../views/COA.vue'
 import ManualTransaction from '../views/ManualTransaction.vue'
-import Neraca from '../views/Neraca.vue'
-import UntungRugi from '../views/UntungRugi.vue'
 
 import Home from '../views/Home.vue'
 
@@ -18,6 +16,9 @@ import Login from '../components/Login/Login'
 import CreateBill from '../views/bill/Create.vue'
 
 import Customer from '../views/customer/Customer.vue'
+
+import ProfitLoss from '../views/report/ProfitLoss.vue'
+import BalanceSheet from '../views/report/BalanceSheet.vue'
 
 Vue.use(VueRouter)
 
@@ -88,14 +89,14 @@ const routes = [
     component: ManualTransaction
   },
   {
-    path: '/neraca',
-    name: 'Neraca',
-    component: Neraca
+    path: '/balancesheet',
+    name: 'BalanceSheet',
+    component: BalanceSheet
   },
   {
-    path: '/untungrugi',
-    name: 'UntungRugi',
-    component: UntungRugi
+    path: '/profitloss',
+    name: 'ProfitLoss',
+    component: ProfitLoss
   },
 ]
 

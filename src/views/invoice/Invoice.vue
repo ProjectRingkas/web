@@ -15,7 +15,7 @@
               </b-col>
             </b-row>
           </div>
-          <b-table responsive="sm" :fields="fields" :items="invoices" >
+          <b-table responsive="sm" :fields="fields" :items="invoices" class="no-top-line">
             <template #cell(order.status)="data">
               <b-badge
                 pill
@@ -152,7 +152,7 @@ export default {
 
   table th {
     font-weight: 600;
-    border-top: none !important;
+    /* border-top: none !important; */
   }
 
   a.plus-create {
@@ -163,5 +163,9 @@ export default {
    a.plus-create .icon-head {
      margin-bottom: 5px;
    }
+
+   div.no-top-line table tr th {
+     border-top: none;
+   } 
   
 </style>

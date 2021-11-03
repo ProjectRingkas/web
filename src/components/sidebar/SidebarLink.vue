@@ -14,8 +14,7 @@ export default {
     components: {
         HomeIcon 
     },
-    created: function () {
-    },
+    created: function () {},
     props: ['to', 'title', 'iconSrc', 'item'],
     methods: {
         isActive: function( to ) { 
@@ -25,7 +24,7 @@ export default {
             console.log(this.item)
             return 'iconSrc' in this.item;
         },
-        collapse: function (e) {
+        /* collapse: function (e) {
         const arrow = e.target.children[2];
         const link = e.target.nextElementSibling;
         if( link.classList.contains("show") ) {
@@ -35,7 +34,7 @@ export default {
             link.classList.add("show");
             arrow.classList.add("rotate");
         }
-        }
+        } */
     }
 } 
 </script>

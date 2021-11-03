@@ -1,116 +1,117 @@
 <template>
     <div class="container-invoice">
-        <b-card
-        header="Bussiness address and contact details"
-        header-tag="header"
-        tag="article"
-        style="max-width: 100%"
-        class="shadow-sm mb-2"
-        id="test"
-        >
-        <b-form @submit.prevent>
-            <b-row>
-              <b-col>
-                <b-card-title>List Invoice</b-card-title>
-              </b-col>
-            </b-row>
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="date">Date:</label>
+        <b-row>
+            <b-col>
+                <b-card class="container">
+                <b-card-title>
+                    <b-row>
+                    <b-col>
+                        <h5 class="card-title">Form Bill</h5>
                     </b-col>
-                    <b-col sm="3">
-                        <b-form-input
-                            id="date"
-                            type="date"
-                            placeholder=""
+                    </b-row>
+                </b-card-title>
+                <b-row>
+                    <b-col cols="6" md="6" sm="12">
+                        <b-form-group
+                            label="Date"
+                            label-for="bio-area" >
+                            <b-form-datepicker
+                            id="bio-area"
+                            class="text-center mb-2"
+                            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
                             v-model="data.date"
-                            required
-                        ></b-form-input>
+                            />
+                        </b-form-group>
                     </b-col>
-                    <b-col sm="3">
-                        <label for="periodic">Periodic:</label>
-                    </b-col>
-                    <b-col sm="3">
-                        <b-form-select 
-                            id="periodic" 
-                            v-model="data.periodic" 
-                            required>
-                            <option value="month">Month</option>
-                            <option value="year">Year</option>
-                        </b-form-select>
-                    </b-col>
-                </b-row>
-
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="vendor">Select Vendor:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <b-form-select 
-                            id="vendor" 
+                    <b-col cols="6" sm="12" md="6" >
+                        <b-form-group
+                            label="Vendor"
+                            label-for="select-vendor" >
+                            <b-form-select
+                            id="select-vendor"
+                            class="align-left-item mb-2" 
                             v-model="data.vendor_id" 
                             :options="opsVendors"
                             required
-                        ></b-form-select>
+                            />
+                        </b-form-group>
                     </b-col>
                 </b-row>
-
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="item">Select Item:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <b-form-select 
+                <b-row>
+                    <b-col cols="6" sm="12" md="6" >
+                        <b-form-group
+                            label="Item"
+                            label-for="select-item" >
+                            <b-form-select
+                            class="text-center mb-2"
                             @change="selectChanged"
                             id="item" 
                             v-model="data.product_id"
                             :options="opsItems"
-                            required>
-                        </b-form-select>
+                            required
+                            />
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="3" sm="6" md="3" >
+                        <b-form-group
+                            label="Amount"
+                            label-for="amount" >
+                            <b-form-input
+                            id="amount"
+                            class="align-left-item mb-2"
+                            :model="{{ data.transaction_price * data.quantity }}"
+                            />
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="3" sm="6" md="3" >
+                        <b-form-group
+                            label="Periodic"
+                            label-for="periodic" >
+                            <b-form-input
+                            id="periodic"
+                            v-model="data.periodic" 
+                            class="align-left-item mb-2"
+                            />
+                        </b-form-group>
                     </b-col>
                 </b-row>
-
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="amount">Transaction Amount:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <p class="align-right">$ {{ data.transaction_price * data.quantity }}</p>
-                    </b-col>
-                </b-row>
-
-                <b-row class="py-2">
-                    <b-col sm="3">
-                        <label for="description">Description:</label>
-                    </b-col>
-                    <b-col sm="9">
-                        <b-form-textarea
+                <b-row>
+                    <b-col  cols="6" sm="12" md="6"  >
+                        <b-form-group
+                            label="Description"
+                            label-for="description" >
+                            <b-form-textarea
                             id="description"
                             placeholder="Enter something..."
                             rows="3"
                             max-rows="6"
-                        ></b-form-textarea>
-                        </b-col>
+                            class="align-left-item mb-2"
+                            />
+                        </b-form-group>
+                    </b-col>
                 </b-row>
-                            <!-- submit and reset -->
-                            
-            <b-col offset-md="4">
-                <b-button
-                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                    type="submit"
-                    variant="primary"
-                    class="mr-1" >
-                Submit
-                </b-button>
-                <b-button
-                    v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                    type="reset"
-                    variant="outline-secondary" >
-                Reset
-                </b-button>
+                <b-row class="mt-2">
+                    <!-- submit and reset -->
+                    <b-col cols="12" class="text-left">
+                        <b-button
+                        type="submit"
+                        variant="primary-local"
+                        class="mr-1"
+                        >
+                        Submit
+                        </b-button>
+                        <b-button
+                        type="reset"
+                        variant="outline-secondary"
+                        >
+                        Reset
+                        </b-button>
+                    </b-col>
+                </b-row>
+                
+                </b-card>
             </b-col>
-        </b-form>
-        </b-card>
+        </b-row>
     </div>
 </template>
 
@@ -207,5 +208,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+    button.btn-primary-local {
+        color: white;
+        background-color: var(--sidebar-item-active); 
+    }
+    div.form-group {
+        margin-bottom: 0.4rem;
+    }
 </style>
