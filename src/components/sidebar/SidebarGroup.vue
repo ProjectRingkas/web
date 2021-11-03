@@ -1,5 +1,5 @@
 <template>
-    <li class="nav-item has-submenu" :class=" !collapse ? 'showMenu' : ''" >
+    <li class="nav-item has-submenu" :class=" (!collapse) ? 'showMenu' : ''" >
         <b-link @click="showMenu" class="iocn-link" >
             <!-- <div class="iocn-link" > -->
                 <a class="" href="#" > 
@@ -10,7 +10,7 @@
                 <icon-feather icon="ChevronRight" class="icon-code arrow" :class=" !collapse ? 'rotate90' : 'rotate0'"></icon-feather>
             <!-- </div> -->
         </b-link>
-        <transition name="zoom-fade" mode="out-in">
+        <!-- <transition name="zoom-fade" mode="out-in"> -->
             <ul class="sub-menu">
                 <!-- <li><router-link :to="'#'" class="link-name">{{item.title}}</router-link></li> -->
                 <sidebar-group-link
@@ -19,7 +19,7 @@
                     :item="child"
                 />
             </ul>
-        </transition>
+        <!-- </transition> -->
 	</li>
 </template>
 
@@ -32,33 +32,38 @@ export default {
         SidebarGroupLink,
         IconFeather
     },
-    props:['item'],
+    props:['item', 'to'],
     data(){
         return {
-            collapse: true
+            collapse: true,
+            active: false
         }
     },
+    watch:{
+        $route: {
+            immediate: true,
+            handler() {
+                this.isCollapse()
+            },
+        }
+    },
+    created: function () {
+        this.isCollapse()
+    },
     methods: {
-        isCollapse: function( ) {
-            return this.collapse;
-        },
-        isActive: function( ) { 
-            return window.location.pathname === this.to;
-        }, 
         isLink: function( ) {
             return 'iconSrc' in this.item;
         },
-        /* collapse: function (e) {
-        const arrow = e.target.children[2];
-        const link = e.target.nextElementSibling;
-        if( link.classList.contains("show") ) {
-            link.classList.remove("show");
-            arrow.classList.remove("rotate");
-        } else {
-            link.classList.add("show");
-            arrow.classList.add("rotate");
-        }
-        }, */
+        isCollapse: function(){
+            var path = '/' + window.location.pathname.split('/')[1];
+            var listChildren = 'children' in this.item ? this.item.children : [];
+            var listRoute = listChildren.map( (child) => { return child.route; });
+            if( listRoute.indexOf(path) > -1 ) {
+                this.collapse = false;
+            } else {
+                this.collapse = true;
+            }
+        },
         showMenu: function () {
             this.collapse = !this.collapse;
         }
@@ -116,14 +121,16 @@ ul.sub-menu {
     padding-top: 10px;
 }
 
-ul.sub-menu li:hover{
+ul.sub-menu li:hover,
+ul.sub-menu li.active{
   background: var(--sidebar-item-active);
   box-shadow: -1px 1px 8px rgba(126, 114, 242, 0.578726);
 }
 ul.sub-menu li a{
     color: #2C2C2C;
 }
-ul.sub-menu li:hover a {
+ul.sub-menu li:hover a,
+ul.sub-menu li.active a {
     color:white;
 }
 

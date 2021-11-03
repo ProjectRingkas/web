@@ -97,19 +97,19 @@
             </b-col>
           </b-row>
             <b-row class="pt-5 pb-2">
-                <b-col cols="4" class="text-center">
+                <b-col cols="4" class="text-center fw-800">
                   Item name
                 </b-col>
-                <b-col class="text-center">
+                <b-col class="text-center fw-800">
                   Quantity
                 </b-col>
-                <b-col class="text-center">
+                <b-col class="text-center fw-800">
                   Price
                 </b-col>
-                <b-col class="text-center">
+                <b-col class="text-center fw-800">
                   Amount
                 </b-col>
-                <b-col class="text-center" cols="2">
+                <b-col class="text-center fw-800" cols="2">
                   Action
                 </b-col>
             </b-row>
@@ -165,7 +165,7 @@
               </b-col>
             </b-row>
             <b-row class="align-right">
-              <b-col><b-button @click="saveInvoice()" variant="outline-dark">Save Invoice</b-button></b-col>
+              <b-col><b-button @click="saveInvoice()" variant="primary-local">Save Invoice</b-button></b-col>
             </b-row>
         </b-card>
       </b-col>
@@ -317,4 +317,8 @@ export default {
 input.form-control  {
   font-size: 0.9rem;
 } 
+
+.fw-800 {
+  font-weight: 800;
+}
 </style>

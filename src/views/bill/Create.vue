@@ -1,90 +1,108 @@
 <template>
     <div class="container-invoice">
-        <b-card
-        header="Bussiness address and contact details"
-        header-tag="header"
-        tag="article"
-        style="max-width: 100%"
-        class="shadow-sm mb-2"
-        id="test"
-        >
-        <b-form @submit.prevent>
-            <b-row>
-            <b-col cols="12">
-                <b-form-group
-                label="First Name"
-                label-for="h-first-name"
-                label-cols-md="4"
-                >
-                <b-form-select 
-                            id="vendor" 
-                            v-model="vendors" 
-                            :options="vendorFields">
-                        </b-form-select>
-                </b-form-group>
-            </b-col>
-            <b-col cols="12">
-                <b-form-group
-                label="Email"
-                label-for="h-email"
-                label-cols-md="4"
-                >
-                <b-form-select 
-                            id="item" 
-                            v-model="items" 
-                            required>
-                        </b-form-select>
-                </b-form-group>
-            </b-col>
-            <b-col cols="12">
-                <b-form-group
-                label="Mobile"
-                label-for="h-number"
-                label-cols-md="4"
-                >
-                <b-form-input
+        <b-row>
+            <b-col>
+                <b-card class="container">
+                <b-card-title>
+                    <b-row>
+                    <b-col>
+                        <h5 class="card-title">Form Bill</h5>
+                    </b-col>
+                    </b-row>
+                </b-card-title>
+                <b-row>
+                    <b-col cols="6" md="6" sm="12">
+                        <b-form-group
+                            label="Date"
+                            label-for="bio-area" >
+                            <b-form-datepicker
+                            id="bio-area"
+                            class="text-center mb-2"
+                            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                            />
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="6" sm="12" md="6" >
+                        <b-form-group
+                            label="Vendor"
+                            label-for="select-vendor" >
+                            <b-form-select
+                            id="select-vendor"
+                            class="align-left-item mb-2"
+                            />
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="6" sm="12" md="6" >
+                        <b-form-group
+                            label="Item"
+                            label-for="select-item" >
+                            <b-form-select
+                            id="select-item"
+                            class="text-center mb-2"
+                            />
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="3" sm="6" md="3" >
+                        <b-form-group
+                            label="Amount"
+                            label-for="amount" >
+                            <b-form-input
                             id="amount"
-                            required
-                        ></b-form-input>
-                </b-form-group>
-            </b-col>
-            <b-col cols="12">
-                <b-form-group
-                label="Password"
-                label-for="h-password"
-                label-cols-md="4"
-                >
-                <b-form-textarea
+                            class="align-left-item mb-2"
+                            />
+                        </b-form-group>
+                    </b-col>
+                    <b-col cols="3" sm="6" md="3" >
+                        <b-form-group
+                            label="Periodic"
+                            label-for="periodic" >
+                            <b-form-input
+                            id="periodic"
+                            class="align-left-item mb-2"
+                            />
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col  cols="6" sm="12" md="6"  >
+                        <b-form-group
+                            label="Description"
+                            label-for="description" >
+                            <b-form-textarea
                             id="description"
                             placeholder="Enter something..."
                             rows="3"
                             max-rows="6"
-                        ></b-form-textarea>
-                </b-form-group>
+                            class="align-left-item mb-2"
+                            />
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row class="mt-2">
+                    <!-- submit and reset -->
+                    <b-col cols="12" class="text-left">
+                        <b-button
+                        type="submit"
+                        variant="primary-local"
+                        class="mr-1"
+                        >
+                        Submit
+                        </b-button>
+                        <b-button
+                        type="reset"
+                        variant="outline-secondary"
+                        >
+                        Reset
+                        </b-button>
+                    </b-col>
+                </b-row>
+                
+                </b-card>
             </b-col>
-
-            <!-- submit and reset -->
-            <b-col offset-md="4">
-                <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                type="submit"
-                variant="primary"
-                class="mr-1"
-                >
-                Submit
-                </b-button>
-                <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-                >
-                Reset
-                </b-button>
-            </b-col>
-            </b-row>
-
-        </b-form>
-        </b-card>
+        </b-row>
+        
     </div>
 </template>
 
@@ -109,5 +127,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+    button.btn-primary-local {
+        color: white;
+        background-color: var(--sidebar-item-active); 
+    }
+    div.form-group {
+        margin-bottom: 0.4rem;
+    }
 </style>
