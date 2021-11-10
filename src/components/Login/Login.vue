@@ -49,7 +49,7 @@ div.container-login {
 }
 .container-login .side {
   width: 41.6%;
-  height: 100%;
+  height: 100vh;
   background-color: blue;
 }
 

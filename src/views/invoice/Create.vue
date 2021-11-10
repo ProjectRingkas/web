@@ -48,7 +48,7 @@
             </b-row>
             <b-row>
               <b-col>
-                <b-form-select class="form-select" v-model="customer" :options="opsCustomers"></b-form-select>
+                <b-form-select class="form-select" v-model="data.customer_id" :options="opsCustomers"></b-form-select>
               </b-col>
             </b-row>
           </b-col>
@@ -234,7 +234,7 @@ export default {
     },
     saveInvoice() {
       this.data.items = JSON.stringify(this.items);
-      
+      console.log(this.data)
       axios.post('http://localhost:3000/api/invoice/add', this.data)
         .then(response => {
             console.log(response);

@@ -28,6 +28,7 @@
               <b-badge
                 pill
                 :variant="data.value.variant"
+                class="badge-local"
               >
                 {{ data.value.status }}
               </b-badge>
@@ -37,6 +38,7 @@
                 <b-dropdown
                 variant="link"
                 no-caret 
+                toggle-class="px-1 py-0"
                 >
                   <template #button-content>
                     <more-vertical-icon class="icon-head"></more-vertical-icon>
