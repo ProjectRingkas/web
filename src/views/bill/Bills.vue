@@ -124,7 +124,7 @@ export default {
   mounted() {
     // Request get all bill
     axios
-      .get('http://localhost:3000/api/bill/getall')
+      .get('http://188.166.222.247:3000/api/bill/getall')
       .then(response => {
         console.log(response.data)
         response.data.data.forEach(data => {

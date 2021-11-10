@@ -124,7 +124,7 @@ export default {
             this.data.type_id = this.invoice.id;
             // console.log(this.data);
 
-            axios.post('http://localhost:3000/api/payment/add', this.data)
+            axios.post('http://188.166.222.247:3000/api/payment/add', this.data)
                 .then(response => {
                     console.log(response);
                     if (response.data.status == 200) {
@@ -146,7 +146,7 @@ export default {
     },
     mounted() {
         // Request coa credit list
-        axios.get('http://localhost:3000/api/coa/get', { params: { saldo_category: 'kredit' } })
+        axios.get('http://188.166.222.247:3000/api/coa/get', { params: { saldo_category: 'kredit' } })
             .then(response => {
                 console.log(response.data)
                 var objOptions = response.data.data.map( (row)=> {
@@ -162,7 +162,7 @@ export default {
             })
         
         // Request coa credit list
-        axios.get('http://localhost:3000/api/coa/get', { params: { saldo_category: 'debit' } })
+        axios.get('http://188.166.222.247:3000/api/coa/get', { params: { saldo_category: 'debit' } })
             .then(response => {
                 console.log(response.data)
                 var objOptions = response.data.data.map( (row)=> {

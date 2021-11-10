@@ -235,7 +235,7 @@ export default {
     saveInvoice() {
       this.data.items = JSON.stringify(this.items);
       console.log(this.data)
-      axios.post('http://localhost:3000/api/invoice/add', this.data)
+      axios.post('http://188.166.222.247:3000/api/invoice/add', this.data)
         .then(response => {
             console.log(response);
             if (response.data.status == 200) {
@@ -251,7 +251,7 @@ export default {
   },
   mounted() {
     // Request products list
-    axios.get('http://localhost:3000/api/items/getall')
+    axios.get('http://188.166.222.247:3000/api/items/getall')
       .then(response => {
         console.log(response.data)
         var objOptions = response.data.data.map( (row)=> {
@@ -267,7 +267,7 @@ export default {
       })
     
     // Request customers list
-    axios.get('http://localhost:3000/api/customers/getall')
+    axios.get('http://188.166.222.247:3000/api/customers/getall')
       .then(response => {
         console.log(response.data)
         var objOptions = response.data.data.map( (row)=> {

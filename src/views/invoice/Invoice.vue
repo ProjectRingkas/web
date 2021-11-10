@@ -118,7 +118,7 @@ export default {
   mounted() {
     // Request get all invoice order
     axios
-      .get('http://localhost:3000/api/invoice/getall')
+      .get('http://188.166.222.247:3000/api/invoice/getall')
       .then(response => {
         console.log(response.data)
         response.data.data.forEach(data => {

@@ -142,7 +142,7 @@ export default {
         onSubmit() {
             console.log(this.data);
       
-            axios.post('http://localhost:3000/api/bill/add', this.data)
+            axios.post('http://188.166.222.247:3000/api/bill/add', this.data)
                 .then(response => {
                     console.log(response);
                     if (response.data.status == 200) {
@@ -174,7 +174,7 @@ export default {
     },
     mounted() {
         // Request vendor list
-        axios.get('http://localhost:3000/api/vendors/getall')
+        axios.get('http://188.166.222.247:3000/api/vendors/getall')
             .then(response => {
                 console.log(response.data)
                 var objOptions = response.data.data.map( (row)=> {
@@ -190,7 +190,7 @@ export default {
             })
 
         // Request bill items list
-        axios.get('http://localhost:3000/api/items/type', { params: { type: 'bill' } })
+        axios.get('http://188.166.222.247:3000/api/items/type', { params: { type: 'bill' } })
             .then(response => {
                 console.log(response.data)
                 var objOptions = response.data.data.map( (row)=> {
