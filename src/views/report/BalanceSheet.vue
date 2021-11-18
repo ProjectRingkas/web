@@ -6,7 +6,7 @@
             <b-card-title>
                 <b-row>
                 <b-col cols="8">
-                    <h5 class="card-title">Profit & Loss</h5>
+                    <h5 class="card-title">Balance Sheet</h5>
                 </b-col>
                 <b-col cols="2">
                     <b-form-datepicker placeholder="Date" v-model="value" class="mb-2"></b-form-datepicker>

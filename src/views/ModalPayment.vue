@@ -1,5 +1,5 @@
 <template>
-    <b-modal :id="id" :size="size" :title="title">
+    <b-modal :id="id" :size="size" :title="title" hide-footer>
         <b-form @submit.prevent="addPayment">
             <b-row>
             <b-col cols="12">
@@ -43,7 +43,9 @@
                 <b-form-input
                     id="h-amount"
                     type="number"
-                    placeholder="1000"
+                    :placeholder=this.total_price
+                    :max="this.total_price * 1"
+                    step="0.0001"
                     v-model="data.amount"
                 />
                 </b-form-group>
@@ -94,7 +96,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import service from '../api/invoice.service';
 
 export default {
     props:['id', 'size', 'title'],
@@ -103,6 +105,7 @@ export default {
             opsCredit : [],
             opsDebit : [],
             invoice: null,
+            total_price:0,
             data: {
                 date: null,
                 type: '',
@@ -117,25 +120,20 @@ export default {
     methods: {
         setInvoice(data) {
             this.invoice = data;
-            // console.log(this.invoice);
+            this.total_price = data.total_price;
         },
         addPayment() {
             this.data.type = this.invoice.type;
             this.data.type_id = this.invoice.id;
             // console.log(this.data);
 
-            axios.post('http://188.166.222.247:3000/api/payment/add', this.data)
-                .then(response => {
-                    console.log(response);
-                    if (response.data.status == 200) {
-                        alert(response.data.message);
-                        window.location.reload();
-                    }
-                })
-                .catch((err) => {
-                    console.log(err.response);
-                    alert(err.response.data.message);
-                })
+            service.addPayment(this.data).then( (result) => {
+                if( result.error ) alert('Error ' + result.message.response.data.message)
+                else {
+                    alert('Success')
+                    window.location.reload();
+                }
+            })
         },
         setCOACredit(data) {
             this.opsCredit = data;
@@ -145,37 +143,11 @@ export default {
         }
     },
     mounted() {
-        // Request coa credit list
-        axios.get('http://188.166.222.247:3000/api/coa/get', { params: { saldo_category: 'kredit' } })
-            .then(response => {
-                console.log(response.data)
-                var objOptions = response.data.data.map( (row)=> {
-                    return {
-                        'value': row.number_id,
-                        'text': row.name
-                    }
-                })
-                this.setCOACredit(objOptions)
-            })
-            .catch((err) => {
-                console.log(err.response);
-            })
-        
-        // Request coa credit list
-        axios.get('http://188.166.222.247:3000/api/coa/get', { params: { saldo_category: 'debit' } })
-            .then(response => {
-                console.log(response.data)
-                var objOptions = response.data.data.map( (row)=> {
-                    return {
-                        'value': row.number_id,
-                        'text': row.name
-                    }
-                })
-                this.setCOADebit(objOptions)
-            })
-            .catch((err) => {
-                console.log(err.response);
-            })
+        service.getCOA().then( (result) => {
+            if( result.error ) alert('Error')
+            this.setCOADebit(result.message.debit)
+            this.setCOACredit(result.message.credit)
+        })
     },
 }
 </script>

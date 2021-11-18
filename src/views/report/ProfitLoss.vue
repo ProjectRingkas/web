@@ -5,13 +5,13 @@
             <b-card class="container">
             <b-card-title>
                 <b-row>
-                <b-col cols="8">
+                <b-col cols="4">
                     <h5 class="card-title">Profit & Loss</h5>
                 </b-col>
-                <b-col cols="2">
+                <b-col col lg="4" md="6">
                     <b-form-datepicker placeholder="Date" v-model="value" class="mb-2"></b-form-datepicker>
                 </b-col>
-                <b-col cols="2">
+                <b-col col lg="4" md="6">
                     <b-button variant="outline-info" to="/customer/create" class="d-flex justify-content-center align-items-center textd-none" >
                     <file-text-icon class="icon-head "></file-text-icon>
                     <span class="textd-none">Export</span>
@@ -25,7 +25,6 @@
                         <tr>
                         <th scope="col">Profit & Loss</th>
                         <th scope="col">Credit</th>
-                        <!-- <th scope="col">Debit</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -62,19 +61,24 @@
 
 <script>
 import {FileTextIcon}  from 'vue-feather-icons';
-import {data} from '../../fakedb/report/profitloss'
+/* import {data} from '../../fakedb/report/profitloss' */
+import service from '../../api/report.service';
+
 export default {
     components:{
         FileTextIcon
     },
-    created: function(){
-        console.log(data)
-    },
     data() {
       return {
-          data
+          data:[]
       }
-    }
+    },
+    mounted: function(){
+        service.getProfitLossCOA().then( ( result ) => {
+            if( result.error ) alert(result.message)
+            this.data = result.message
+        })
+    },
 }
 </script>
 

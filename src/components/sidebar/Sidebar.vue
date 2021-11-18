@@ -125,8 +125,8 @@ export default {
   transition: all 0.4s ease;
   margin-left: 15px;
   margin-right: 15px;
-  margin-top:4px;
-  margin-bottom:4px;
+  margin-top:10px;
+  margin-bottom:10px;
 }
 .sidebar .nav-links li.first-link:hover{
   background: var(--sidebar-item-active);
@@ -180,7 +180,7 @@ export default {
 }
 .sidebar .nav-links li.showMenu .sub-menu{
   display: block;
-  height: 100px;
+  height: 108px;
 }
 .sidebar .nav-links li .sub-menu a{
   font-size: 14px;

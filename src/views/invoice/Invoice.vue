@@ -51,7 +51,7 @@
               </div>
             </template>
           </b-table>
-          <ModalPayment ref="payment" id="modal-lg" size="lg" title="Large Modal" />
+          <ModalPayment ref="payment" id="modal-lg" size="lg" title="Add Payment" />
         </b-card>
       </b-col>
     </b-row>
@@ -62,7 +62,7 @@
 
 import ModalPayment from '../ModalPayment.vue'
 import {MoreVerticalIcon, PlusIcon}  from 'vue-feather-icons';
-import axios from 'axios';
+import service from '../../api/invoice.service';
 
 export default {
   name: "Invoice",
@@ -111,39 +111,18 @@ export default {
       this.invoices = data;
     },
     showAddPayment(data) {
-      console.log(data);
+      //console.log(data);
       this.$refs.payment.setInvoice(data.item.order);
     }
   },
   mounted() {
     // Request get all invoice order
-    axios
-      .get('http://188.166.222.247:3000/api/invoice/getall')
-      .then(response => {
-        console.log(response.data)
-        response.data.data.forEach(data => {
-          if (data.order.status == "Pending") data.order.status = { status: 'Pending', variant: 'warning' };
-          else if (data.order.status == "Partially Paid") data.order.status = { status: 'Partially Paid', variant: 'primary' };
-          else if (data.order.status == "Fully Paid") data.order.status = { status: 'Fully Paid', variant: 'success' };
-
-          data.order.date = data.order.date.substring(0, data.order.date.indexOf('T'));
-          data.order.type = 'orders';
-        });
-        console.log(response.data.data)
-        this.setInvoices(response.data.data)
-      })
-      .catch((err) => {
-        console.log(err.response);
-        this.setInvoices([
-          {
-            order: {
-              customer:[ {
-                'name': 'Test'
-              } ]
-            }
-          }
-        ])
-      })
+    service.getAll().then( (result) => {
+      //console.log(result, 'result')
+      if( result.error ) alert('Error')
+      this.setInvoices(result.message)
+    })
+      
   },
 }
 </script>
