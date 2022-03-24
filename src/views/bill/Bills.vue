@@ -24,9 +24,19 @@
             </b-row>
           </b-card-title>
           <div>
-          <b-table responsive="sm" :fields="fields" :items="bills" >
-            <template #cell(status)="data">
-              <b-badge class="badge-local" pill :variant="data.value.variant" >
+          <b-table responsive="sm" :fields="fields" :busy="isBusy" :items="bills" >
+            <template #table-busy>
+                <div class="text-center text-danger my-2">
+                  <b-spinner class="align-middle"></b-spinner>
+                  <strong>Loading...</strong>
+                </div>
+            </template>
+            <template #cell(bill.status)="data">
+              <b-badge
+                pill
+                :variant="data.value.variant"
+                class="badge-local"
+              >
                 {{ data.value.status }}
               </b-badge>
             </template>
@@ -44,7 +54,7 @@
                     <template #button-content >
                       <more-vertical-icon class="icon-head"></more-vertical-icon>
                     </template>
-                    <b-dropdown-item @click="showAddPayment(data)">Add Payment</b-dropdown-item>
+                    <b-dropdown-item v-b-modal.modal-lg @click="showAddPayment(data)">Add Payment</b-dropdown-item>
                     <b-dropdown-item href="#">Edit</b-dropdown-item>
                     <b-dropdown-item href="#">Delete</b-dropdown-item>
                   </b-dropdown>
@@ -52,7 +62,7 @@
               </template>
           </b-table>
           </div>
-          <ModalPayment ref="payment"  id="modal-lg" size="lg" title="Large Modal" />
+          <BillPayment ref="payment"  id="modal-lg" size="lg" title="Payment" />
         </b-card>
       </b-col>
     </b-row>
@@ -60,19 +70,21 @@
 </template>
 
 <script>
-import ModalPayment from '../ModalPayment.vue'
-import axios from 'axios';
+import BillPayment from '../modal/BillPayment.vue'
 import {MoreVerticalIcon, EyeIcon, PlusIcon}  from 'vue-feather-icons'
+import service from '../../api/bill.service'
+
 export default {
   name: "Invoice",
   components:{
     MoreVerticalIcon,
     PlusIcon,
     EyeIcon,
-    ModalPayment
+    BillPayment
   },
   data(){
     return {
+      isBusy: true,
       fields:[
         {
           key:'bill.vendor[0].name',
@@ -117,39 +129,17 @@ export default {
       this.bills = data;
     },
     showAddPayment(data) {
-      console.log(data);
       this.$refs.payment.setInvoice(data.item.bill);
     }
   },
   mounted() {
     // Request get all bill
-    axios
-      .get('http://188.166.222.247:3000/api/bill/getall')
-      .then(response => {
-        console.log(response.data)
-        response.data.data.forEach(data => {
-          if (data.bill.status == "Pending") data.bill.status = { status: 'Pending', variant: 'warning' };
-          else if (data.bill.status == "Partially Paid") data.bill.status = { status: 'Partially Paid', variant: 'primary' };
-          else if (data.bill.status == "Fully Paid") data.bill.status = { status: 'Fully Paid', variant: 'success' };
-
-          data.bill.date = data.bill.date.substring(0, data.bill.date.indexOf('T'));
-          data.bill.type = 'bills';
-        });
-        console.log(response.data.data);
-        this.setBill(response.data.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-        this.setBill([
-          {
-            bill: {
-              vendor:[ {
-                'name': 'Test'
-              } ]
-            }
-          }
-        ])
-      })
+    service.getAll().then( (response) => {
+      this.setBill(response.message);
+      this.isBusy = false
+    }).catch((err)=> {
+      alert(err)
+    })
   },
 }
 </script>

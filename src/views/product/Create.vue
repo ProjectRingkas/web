@@ -1,37 +1,33 @@
 <template>
-    <div class="container-invoice">
+    <div class="container-form">
         <b-row>
             <b-col>
                 <b-card class="container">
                 <b-card-title>
                     <b-row>
                     <b-col>
-                        <h5 class="card-title">Form Bill</h5>
+                        <h5 class="card-title">Form Product</h5>
                     </b-col>
                     </b-row>
                 </b-card-title>
                 <b-row>
-                    <b-col cols="6" md="6" sm="12">
+                    <b-col cols="12" md="12" sm="12">
                         <b-form-group
-                            label="Date"
-                            label-for="bio-area" >
-                            <b-form-datepicker
-                            id="bio-area"
-                            class="text-center mb-2"
-                            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                            v-model="data.date"
+                            label="Name"
+                            label-for="name" >
+                            <b-form-input
+                            id="name"
+                            class="text-left mb-2"
                             />
                         </b-form-group>
                     </b-col>
-                    <b-col cols="6" sm="12" md="6" >
+                    <b-col cols="12" sm="12" md="12" >
                         <b-form-group
-                            label="Vendor"
-                            label-for="select-vendor" >
+                            label="Category"
+                            label-for="category" >
                             <b-form-select
-                            id="select-vendor"
+                            id="category"
                             class="align-left-item mb-2" 
-                            v-model="data.vendor_id" 
-                            :options="opsVendors"
                             required
                             />
                         </b-form-group>

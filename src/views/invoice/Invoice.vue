@@ -23,7 +23,13 @@
               </b-col>
             </b-row>
           </b-card-title>
-          <b-table responsive="sm" :fields="fields" :items="invoices" class="no-top-line">
+          <b-table responsive="sm" :busy="isBusy" :fields="fields" :items="invoices" class="no-top-line">
+            <template #table-busy>
+              <div class="text-center text-danger my-2">
+                <b-spinner class="align-middle"></b-spinner>
+                <strong>Loading...</strong>
+              </div>
+            </template>
             <template #cell(order.status)="data">
               <b-badge
                 pill
@@ -47,7 +53,6 @@
                   <b-dropdown-item href="#">Edit</b-dropdown-item>
                   <b-dropdown-item href="#">Delete</b-dropdown-item>
                 </b-dropdown>
-                
               </div>
             </template>
           </b-table>
@@ -73,6 +78,7 @@ export default {
   },
   data(){
     return {
+      isBusy: true,
       fields:[
         {
           key:'order.customer[0].name',
@@ -121,6 +127,7 @@ export default {
       //console.log(result, 'result')
       if( result.error ) alert('Error')
       this.setInvoices(result.message)
+      this.isBusy = false
     })
       
   },

@@ -20,10 +20,12 @@ import Customer from '../views/customer/Customer.vue'
 import ProfitLoss from '../views/report/ProfitLoss.vue'
 import BalanceSheet from '../views/report/BalanceSheet.vue'
 
+import Product from '../views/product/Product.vue'
+import CreateProduct from '../views/product/Create.vue'
+
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Home',
     component: Home
@@ -62,6 +64,16 @@ const routes = [
     path: '/category',
     name: 'Category',
     component: Category
+  },
+  {
+    path: '/product',
+    name: 'Product',
+    component: Product
+  },
+  {
+    path: '/product/create',
+    name: 'Product',
+    component: CreateProduct
   },
   {
     path: '/inventory',

@@ -50,15 +50,6 @@
                 />
                 </b-form-group>
             </b-col>
-            <!-- <b-col cols="12">
-                <b-form-group
-                label="Payment Type"
-                label-for="h-payment-type"
-                label-cols-md="4"
-                >
-                <b-form-select id="payment-type" class="form-select" :options="options"></b-form-select>
-                </b-form-group>
-            </b-col> -->
             <b-col cols="12">
                 <b-form-group
                 label="Description"
@@ -96,7 +87,7 @@
 </template>
 
 <script>
-import service from '../api/invoice.service';
+import service from '../../api/bill.service';
 
 export default {
     props:['id', 'size', 'title'],

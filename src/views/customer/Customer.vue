@@ -17,14 +17,19 @@
                   <b-button variant="outline-info" to="/customer/create" class="d-flex justify-content-center align-items-center textd-none" >
                     <plus-icon class="icon-head "></plus-icon>
                     <span class="textd-none">Add</span>
-                  
                 </b-button>
                 </div>
               </b-col>
             </b-row>
           </b-card-title>
           <div>
-            <b-table :items="customers" :fields="field" class="list">
+            <b-table :items="customers" :busy="isBusy" :fields="field" class="list">
+              <template #table-busy>
+                <div class="text-center text-danger my-2">
+                  <b-spinner class="align-middle"></b-spinner>
+                  <strong>Loading...</strong>
+                </div>
+            </template>
               <template #cell(action)="data">
                 <div class="">
                   <div class="btn btn-link px-1 py-0"> 
@@ -39,9 +44,8 @@
                     <template #button-content >
                       <more-vertical-icon class="icon-head"></more-vertical-icon>
                     </template>
-                    <b-dropdown-item @click="showAddPayment(data)">Add Payment</b-dropdown-item>
-                    <b-dropdown-item href="#">Edit</b-dropdown-item>
-                    <b-dropdown-item href="#">Delete</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="editCustomer(data)">Edit</b-dropdown-item>
+                    <b-dropdown-item href="#" @click="deleteCustomer(data)">Delete</b-dropdown-item>
                   </b-dropdown>
                 </div>
               </template>
@@ -54,6 +58,7 @@
 </template>
 
 <script>
+import service from '../../api/customer.service'
 import {MoreVerticalIcon, EyeIcon, PlusIcon}  from 'vue-feather-icons';
 export default {
   name: "Customer",
@@ -63,8 +68,14 @@ export default {
     PlusIcon
   },
   methods:{
-    showAddPayment(order) {
-      console.log(order)
+    setCustomer(data) {
+      this.customers = data;
+    },
+    deleteCustomer( data ) {
+      console.log(data)
+    },
+    editCustomer( data ) {
+      console.log(data)
     }
   },
   data() {
@@ -88,28 +99,20 @@ export default {
           key: 'action'
         }
       ],
-      customers:[
-        {
-          name: 'CV. Maju Bersama',
-          address: 'Kav 9.1 Lawang Kabupaten Malang',
-          phone: '+62781234567890',
-          description: 'Vendor Teknik'
-        },
-        {
-          name: 'CV. Maju Bersama',
-          address: 'Kav 9.1 Lawang Kabupaten Malang',
-          phone: '+62781234567890',
-          description: 'Vendor Teknik'
-        },
-        {
-          name: 'CV. Maju Bersama',
-          address: 'Kav 9.1 Lawang Kabupaten Malang',
-          phone: '+62781234567890',
-          description: 'Vendor Teknik'
-        }
-      ]
+      customers:[ ],
+      isBusy: true
     }
-  }
+  },
+  mounted() {
+    // Request get all Customer
+    service.getAllCustomer().then( (response) => {
+      //console.log(response)
+      this.setCustomer(response.message);
+      this.isBusy = false
+    }).catch((err)=> {
+      alert(err)
+    })
+  },
 };
 </script>
 <style >
